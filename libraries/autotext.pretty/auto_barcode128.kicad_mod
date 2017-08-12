@@ -1,0 +1,10 @@
+(module auto_barcode128 (layer F.Cu) (tedit 598F4C8E)
+  (fp_text reference REF** (at 0 -3) (layer F.SilkS) hide
+    (effects (font (size 1 1) (thickness 0.15)))
+  )
+  (fp_text value Code128 (at 0 -1) (layer F.SilkS) hide
+    (effects (font (size 1 1) (thickness 0.15)))
+  )
+  (fp_line (start 0.5 0) (end 0 0) (layer F.Fab) (width 0.15))
+  (fp_line (start 0 0) (end 0 0.5) (layer F.Fab) (width 0.15))
+)
