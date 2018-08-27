@@ -21,13 +21,13 @@ Placing text fields on copper layers is officially deprecated as it is not handl
 
 # Installation
 - copy the libraries to a suitable folder and add them to your project
-- copy the python files to a path accessible from KiCad e.g. c:/kicad_utils/KiAutotext
+- copy the KiAutoText sub-folder containing the python files to a path accessible from KiCad e.g.
+  - Windows: `C:\Users\bob\AppData\Roaming\kicad\scripting\KiAutoText`
+  - Unix: `~/.kicad/scripting/KiAutoText`
 
 # Running the script
-- In pcbnew, open the Python scripting console (Tools->Scripting Console)
-- type the command `sys.path.append("c:/kicad_utils/KiAutotext")` into the console (replace with actual path)
 - **NB always save any changed files in KiCad before running the script**
-- type the command `execfile("c:/kicad_utils/KiAutotext/KiAutotext.py")` whenever you need to update the PCB fields
+- In pcbnew, whenever you need to update the PCB fields, select Tools->External Plugins...->KiAutoText: Auto fill fields
 
 # Detailed Usage
 
