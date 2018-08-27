@@ -1,0 +1,98 @@
+EESchema-LIBRARY Version 2.4
+#encoding utf-8
+#
+# autotext:BarcodeCode128
+#
+DEF autotext:BarcodeCode128 M 0 40 Y Y 1 F N
+F0 "M" 0 100 60 H V C CNN
+F1 "autotext:BarcodeCode128" 0 0 60 H V C CNN
+F2 "autotext:auto_barcode128" 0 -100 60 H V C CNN
+F3 "" 0 0 60 H I C CNN
+DRAW
+ENDDRAW
+ENDDEF
+#
+# autotext:BarcodeCode39
+#
+DEF autotext:BarcodeCode39 M 0 40 Y Y 1 F N
+F0 "M" 0 100 60 H V C CNN
+F1 "autotext:BarcodeCode39" 0 0 60 H V C CNN
+F2 "autotext:auto_barcode39" 0 -100 60 H V C CNN
+F3 "" 0 0 60 H I C CNN
+DRAW
+ENDDRAW
+ENDDEF
+#
+# autotext:UserTitleBlock
+#
+DEF autotext:UserTitleBlock M 0 40 Y Y 1 F N
+F0 "M" -600 200 60 H V C CNN
+F1 "autotext:UserTitleBlock" -350 50 60 H V C CNN
+F2 "" 0 -150 60 H V C CNN
+F3 "" 0 0 60 H V C CNN
+F4 "-" 50 -50 60 H V L CNN "AsyPN"
+F5 "-" 50 -150 60 H V L CNN "AsyRev"
+F6 "-" 2050 -50 60 H V L CNN "PCBPN"
+F7 "-" 2050 -150 60 H V L CNN "PCBRev"
+$FPLIST
+ OSHW_logo_2
+$ENDFPLIST
+DRAW
+T 0 -650 -50 60 0 0 0 "Assembly PN:" Normal 0 L C
+T 0 -650 -150 60 0 0 0 "Assembly Rev:" Normal 0 L C
+T 0 1500 -150 60 0 0 0 "PCB PN:" Normal 0 L C
+T 0 1500 -50 60 0 0 0 "PCB Rev:" Normal 0 L C
+S -700 150 3550 -400 0 1 0 N
+P 2 0 0 0 -700 -300 3550 -300 N
+P 2 0 0 0 -700 -200 3550 -200 N
+P 2 0 0 0 -700 -100 3550 -100 N
+P 2 0 0 0 -700 0 3550 0 N
+P 2 0 1 0 1450 0 1450 -400 N
+ENDDRAW
+ENDDEF
+#
+# autotext:text_F_Cu
+#
+DEF autotext:text_F_Cu M 0 40 Y Y 1 F N
+F0 "M" 0 100 60 H V C CNN
+F1 "autotext:text_F_Cu" 0 0 60 H V C CNN
+F2 "autotext:text_F_Cu" 0 -100 60 H V C CNN
+F3 "" 0 0 60 H I C CNN
+DRAW
+ENDDRAW
+ENDDEF
+#
+# autotext:text_F_SilkS
+#
+DEF autotext:text_F_SilkS M 0 40 Y Y 1 F N
+F0 "M" 0 100 60 H V C CNN
+F1 "autotext:text_F_SilkS" 0 0 60 H V C CNN
+F2 "autotext:text_F_SilkS" 0 -100 60 H V C CNN
+F3 "" 0 0 60 H I C CNN
+DRAW
+ENDDRAW
+ENDDEF
+#
+# autotext:text_auto
+#
+DEF autotext:text_auto M 0 40 Y Y 1 F N
+F0 "M" 0 100 60 H V C CNN
+F1 "autotext:text_auto" 0 0 60 H V C CNN
+F2 "autotext:text_auto" 0 -100 60 H V C CNN
+F3 "" 0 0 60 H I C CNN
+DRAW
+ENDDRAW
+ENDDEF
+#
+# autotext:text_auto_date
+#
+DEF autotext:text_auto_date M 0 40 Y Y 1 F N
+F0 "M" 0 100 60 H V C CNN
+F1 "autotext:text_auto_date" 0 0 60 H V C CNN
+F2 "autotext:text_auto_date" 0 -100 60 H V C CNN
+F3 "" 0 0 60 H I C CNN
+DRAW
+ENDDRAW
+ENDDEF
+#
+#End Library

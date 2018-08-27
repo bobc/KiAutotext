@@ -26,6 +26,7 @@ import BarcodeCode128
 
 # console commands
 """
+import sys
 sys.path.append("c:/git_bobc/kiautotext/kiautotext")
 execfile ("c:/git_bobc/kiautotext/kiautotext/KiAutotext.py")
 
@@ -73,6 +74,10 @@ text_auto       the Value field is used as a formatting string. Macro keys are
                 
                 Additional substitutions are made according to user defined 
                 fields from component "UserTitleBlock" if it exists.
+                
+                If the Value field has a prefix "%layer:", where layer is a layer
+                name in the current PCB (e.g. "F.Cu") then the text will be placed
+                on that layer.
 
 auto_barcode39 
                 The Value field is used to create a Code39 barcode. Invalid 
@@ -146,7 +151,7 @@ class Schematic:
         line = f.readline().rstrip()
         tokens = filter(bool, line.split())
 
-        if tokens[1] == "UserTitleBlock":
+        if tokens[1] == "autotext:UserTitleBlock":
           while not tokens[0] == "$EndComp":
             if tokens[0]== "F" and int(tokens[1]) >= 4:  
               key = tokens[10]
@@ -227,13 +232,13 @@ def pcbTitleBlock(board):
   return titleBlock
              
 def autoFillFields():
-  # if True, read titleblock form schematic file
-  # else read titleblock for kicad_pcb file
+  # if True, read titleblock from schematic file,
+  # else read titleblock from kicad_pcb file
   opt_schematic_titleblock = True
   
   my_board = pcbnew.GetBoard()
 
-  numlayers = pcbnew.LAYER_ID_COUNT
+  numlayers = pcbnew.PCB_LAYER_ID_COUNT
   for i in range(numlayers):
     layertable[my_board.GetLayerName(i)] = i
   
@@ -267,15 +272,15 @@ def autoFillFields():
     px = p[0]
     py = p[1]
 
-    if fpid.GetFootprintName() == "text_F_Cu":
+    if fpid.GetLibItemName() == "text_F_Cu":
       module.Value().SetLayer(pcbnew.F_Cu)
                                       
-    elif fpid.GetFootprintName() == "text_auto_date":
+    elif fpid.GetLibItemName() == "text_auto_date":
       new_text = date_now
       print ("Setting module %s Value to '%s' " % ( module.GetReference(), new_text ) )
       module.Value().SetText(new_text)
       
-    elif fpid.GetFootprintName() == "text_auto":
+    elif fpid.GetLibItemName() == "text_auto":
       # set some defaults
       layer = pcbnew.F_SilkS
       pos = pcbnew.wxPoint (px,py)
@@ -287,8 +292,8 @@ def autoFillFields():
       for g in gfx:
         if isinstance (g, pcbnew.TEXTE_MODULE):
           layer = g.GetLayer()
-          pos = g.GetTextPosition()
-          textsize = g.GetSize()
+          pos = g.GetPosition()
+          textsize = g.GetTextSize()
           thickness = g.GetThickness()
           # italic, orientation 
           module.GraphicalItems().Remove (g)
@@ -305,15 +310,15 @@ def autoFillFields():
       text.SetPosition (pos)
       text.SetLayer (layer)
       text.SetVisible (True)
-      text.SetSize (textsize)
+      text.SetTextSize (textsize)
       text.SetThickness (thickness)
       text.SetText (s)
       module.Add (text) 
       
       module.SetPosition (module.GetPosition())
       
-    elif (fpid.GetFootprintName() == "auto_barcode39" or
-      fpid.GetFootprintName() == "auto_barcode128"):
+    elif (fpid.GetLibItemName() == "auto_barcode39" or
+          fpid.GetLibItemName() == "auto_barcode128"):
 
       layer = pcbnew.F_SilkS
       s = module.GetValue()
@@ -329,16 +334,26 @@ def autoFillFields():
         if g.GetLayer() == layer or g.GetLayer() == pcbnew.F_CrtYd:
           module.GraphicalItems().Remove (g)
 
-      if fpid.GetFootprintName() == "auto_barcode128":
+      if fpid.GetLibItemName() == "auto_barcode128":
         barcode = BarcodeCode128.Code128 (module, layer)
       else:
         barcode = BarcodeCode39.Code39 (module, layer)
-      barcode.drawBarcode(s)
+      barcode.drawBarcode(s, module.GetPosition())
       
-      # for some reason, this is required to reset the graphic lines to the right position  
-      module.SetPosition (module.GetPosition())
+
+  # requires version >= 5
+  pcbnew.Refresh()
         
-  # requires version > 4
-  #my_board.Refresh()
-        
-autoFillFields()
+class KiAutoTextPlugin(pcbnew.ActionPlugin):
+    def defaults(self):
+        self.name = "KiAutoText: Auto fill fields"
+        self.category = "Footprints"
+        self.description = "Update components with dynamic data content"
+
+    def Run(self):
+        autoFillFields()
+
+if __name__ == "__main__":
+    autoFillFields()
+
+

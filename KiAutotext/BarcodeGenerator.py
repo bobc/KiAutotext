@@ -30,8 +30,8 @@ class Barcode(object):
     seg.SetWidth(pcbnew.FromMM(self.X))
     seg.SetLayer(self.layer)
     seg.SetShape(pcbnew.S_SEGMENT)
-    seg.SetStartEnd( pcbnew.wxPoint( pcbnew.FromMM(x1), pcbnew.FromMM(y1)),
-                     pcbnew.wxPoint( pcbnew.FromMM(x2), pcbnew.FromMM(y2)) ) 
+    seg.SetStartEnd( pcbnew.wxPoint( pcbnew.FromMM(x1)+self.position.x, pcbnew.FromMM(y1)+self.position.y),
+                     pcbnew.wxPoint( pcbnew.FromMM(x2)+self.position.x, pcbnew.FromMM(y2)+self.position.y) )
     self.module.Add(seg)
     
     
@@ -70,7 +70,8 @@ class Barcode(object):
       self.Line(self.X/2, y0+height+offset, width+x0*2-self.X/2, y0+height+offset)
       offset += self.X/2
     
-  def drawBarcode (self, text):
+  def drawBarcode (self, text, pos):
+      self.position = pos
       #todo : height and thickness should be parameters
       self.X = 0.20 
       self.H = 3
@@ -86,7 +87,7 @@ class Barcode(object):
       self.drawQuietZone(self.Q, self.Vmargin, width, self.H)
       
       # add text corresponding to actual barcode data, including guard characters
-      textSize = self.module.Value().GetSize()
+      textSize = self.module.Value().GetTextSize()
       x1 = width + self.Q * 2
       y1 = self.H + self.Vmargin * 2 + pcbnew.ToMM(textSize[1]) * 1.1 + 0.5
       p = self.module.GetPosition()
@@ -96,7 +97,7 @@ class Barcode(object):
       text.SetPosition (pcbnew.wxPoint(  px + pcbnew.FromMM(x1/2), py + pcbnew.FromMM(y1 - 0.25) - textSize[1]/2))
       text.SetLayer (self.layer)
       text.SetVisible (True)
-      text.SetSize (textSize)
+      text.SetTextSize (textSize)
       text.SetText (self.labelText)
       self.module.Add (text) 
       

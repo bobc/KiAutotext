@@ -1,0 +1,4 @@
+(sym_lib_table
+  (lib (name atmel)(type Legacy)(uri C:/temp2/atmel.lib)(options "")(descr ""))
+  (lib (name autotext)(type Legacy)(uri C:/git_bobc/KiAutotext/libraries/autotext.lib)(options "")(descr ""))
+)
